@@ -1,0 +1,350 @@
+mysql> CREATE TABLE Dependent (
+    -> EmployeeID INT,
+    -> DependName VARCHAR(50) NOT NULL,
+    -> Sex VARCHAR(10),
+    -> BirthDate DATE,
+    -> Relationship Varchar(50),
+    -> PRIMARY KEY(EmployeeID,DependName),
+    -> FOREIGN KEY(EmployeeID) REFERENCES Employee(EmployeeID)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_ayushv2 |
++-------------------+
+| department        |
+| dependent         |
+| deptlocations     |
+| employee          |
+| project           |
+| works_on          |
++-------------------+
+6 rows in set (0.00 sec)
+
+mysql> desc department;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Dname          | varchar(20) | NO   | UNI | NULL    |       |
+| Dnumber        | int(11)     | NO   | PRI | NULL    |       |
+| ManagerID      | int(11)     | YES  | MUL | NULL    |       |
+| Mgr_start_date | date        | NO   |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+////////////////////////////2.1
+mysql> insert into Department (Dname,Dnumber,ManagerID,Mgr_start_date) values ('Computer Science',10,NULL,'2025-06-01');
+Query OK, 1 row affected (0.00 sec)
+////////////////////////////2.2
+mysql> insert into Employee(Name, EmployeeID, BirthDate,HouseName, Gender, Salary, SuperEID, Dnumber)
+    -> values
+    -> ('Ayush',101,'1990-01-10', 'Rose Villa', 'Male', 12000, NULL,10),
+    -> ('Bavesh',102,'1988-02-20', 'Sunset House', 'Male', 11000, 101,10),
+    -> ('Siddharth',103,'1992-07-12', 'Lakeview', 'Male', 9000, 101,10);
+Query OK, 3 rows affected, 3 warnings (0.45 sec)
+Records: 3  Duplicates: 0  Warnings: 3
+////////////////////////////2.3
+mysql> UPDATE Employee
+    -> SET Salary = 15000
+    -> WHERE Salary > 10000;
+Query OK, 2 rows affected (0.00 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from Employee;
++-----------+------------+------------+--------------+--------+--------+----------+---------+
+| Name      | EmployeeID | BirthDate  | HouseName    | Gender | Salary | SuperEID | Dnumber |
++-----------+------------+------------+--------------+--------+--------+----------+---------+
+| Ayush     |        101 | 1990-01-10 | Rose Villa   | M      |  15000 |     NULL |      10 |
+| Bavesh    |        102 | 1988-02-20 | Sunset House | M      |  15000 |      101 |      10 |
+| Siddharth |        103 | 1992-07-12 | Lakeview     | M      |   9000 |      101 |      10 |
++-----------+------------+------------+--------------+--------+--------+----------+---------+
+3 rows in set (0.00 sec)
+
+/////////////2.4
+
+mysql> UPDATE Project
+    -> SET Dnumber = 'D2'
+    -> WHERE Pnumber = 'P1' AND Dnumber = 'D1';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+//////////////////////////////////2.5
+
+mysql> INSERT INTO Works_on (EmployeeID, Pnumber, Hours)
+    -> VALUES (101, 'P1', 7);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from works_on;
++------------+---------+-------+
+| EmployeeID | Pnumber | Hours |
++------------+---------+-------+
+|        102 | P2      |  8.00 |
+|        103 | P2      | 12.00 |
+|        102 | P3      |  5.00 |
+|        101 | P1      |  7.00 |
++------------+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> DELETE FROM Works_on
+    -> WHERE Pnumber = 'P1';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from works_on;
++------------+---------+-------+
+| EmployeeID | Pnumber | Hours |
++------------+---------+-------+
+|        102 | P2      |  8.00 |
+|        103 | P2      | 12.00 |
+|        102 | P3      |  5.00 |
++------------+---------+-------+
+3 rows in set (0.00 sec)
+////////////////3.1
+mysql> SELECT * FROM Employee order by salary asc;
++---------+------------+------------+--------------+--------+--------+----------+---------+
+| Name    | EmployeeID | BirthDate  | HouseName    | Gender | Salary | SuperEID | Dnumber |
++---------+------------+------------+--------------+--------+--------+----------+---------+
+| Charlie |        103 | 1992-07-12 | Lakeview     | Male   |   9000 |      101 | D2      |
+| Alice   |        101 | 1990-01-10 | Rose Villa   | Female |  15000 |     NULL | D1      |
+| Bob     |        102 | 1988-02-20 | Sunset House | Male   |  15000 |      101 | D1      |
++---------+------------+------------+--------------+--------+--------+----------+---------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Employee order by salary desc;
++---------+------------+------------+--------------+--------+--------+----------+---------+
+| Name    | EmployeeID | BirthDate  | HouseName    | Gender | Salary | SuperEID | Dnumber |
++---------+------------+------------+--------------+--------+--------+----------+---------+
+| Alice   |        101 | 1990-01-10 | Rose Villa   | Female |  15000 |     NULL | D1      |
+| Bob     |        102 | 1988-02-20 | Sunset House | Male   |  15000 |      101 | D1      |
+| Charlie |        103 | 1992-07-12 | Lakeview     | Male   |   9000 |      101 | D2      |
++---------+------------+------------+--------------+--------+--------+----------+---------+
+3 rows in set (0.00 sec)
+//////////////////////////////3.2
+
+mysql> SELECT * FROM Employee where Dnumber = 'D2';// not 30
++---------+------------+------------+-----------+--------+--------+----------+---------+
+| Name    | EmployeeID | BirthDate  | HouseName | Gender | Salary | SuperEID | Dnumber |
++---------+------------+------------+-----------+--------+--------+----------+---------+
+| Charlie |        103 | 1992-07-12 | Lakeview  | Male   |   9000 |      101 | D2      |
++---------+------------+------------+-----------+--------+--------+----------+---------+
+1 row in set (0.01 sec)
+
+/////////////////////////////////3.3
+mysql> SELECT Name, BirthDate FROM Employee where Dnumber = 'D1';
++-------+------------+
+| Name  | BirthDate  |
++-------+------------+
+| Alice | 1990-01-10 |
+| Bob   | 1988-02-20 |
++-------+------------+
+2 rows in set (0.00 sec)
+
+////////////////////////////////3.4
+mysql> SELECT
+    ->   p.Pnumber,
+    ->   p.Dnumber,
+    ->   e.Name,
+    ->   e.HouseName,
+    ->   e.BirthDate
+    -> FROM Project AS p
+    -> JOIN Department AS d ON p.Dnumber = d.Dnumber
+    -> JOIN Employee AS e ON d.ManagerID = e.EmployeeID
+    -> WHERE p.Plocation = 'Cochin';
++---------+---------+-------+------------+------------+
+| Pnumber | Dnumber | Name  | HouseName  | BirthDate  |
++---------+---------+-------+------------+------------+
+| P3      | D1      | Alice | Rose Villa | 1990-01-10 |
++---------+---------+-------+------------+------------+
+1 row in set (0.00 sec)
+
+mysql>
+
+////////////////////////////////3.5
+
+
+mysql> SELECT e.EmployeeID, e.Name, COUNT(*) AS project_count
+    -> FROM Works_on w
+    -> JOIN Employee e ON w.EmployeeID = e.EmployeeID
+    -> GROUP BY e.EmployeeID, e.Name
+    -> HAVING COUNT(*) > 1;
++------------+------+---------------+
+| EmployeeID | Name | project_count |
++------------+------+---------------+
+|        102 | Bob  |             2 |
++------------+------+---------------+
+1 row in set (0.00 sec)
+
+///////////////////////////////////5
+//////////5.1
+mysql> select * from employee where name like "A%";
++-------+------------+------------+------------+--------+--------+----------+---------+
+| Name  | EmployeeID | BirthDate  | HouseName  | Gender | Salary | SuperEID | Dnumber |
++-------+------------+------------+------------+--------+--------+----------+---------+
+| Alice |        101 | 1990-01-10 | Rose Villa | Female |  15000 |     NULL | D1      |
++-------+------------+------------+------------+--------+--------+----------+---------+
+1 row in set (0.01 sec)
+//////////////5.2
+mysql> select * from employee where birthdate like "__8%";
++------+------------+------------+--------------+--------+--------+----------+---------+
+| Name | EmployeeID | BirthDate  | HouseName    | Gender | Salary | SuperEID | Dnumber |
++------+------------+------------+--------------+--------+--------+----------+---------+
+| Bob  |        102 | 1988-02-20 | Sunset House | Male   |  15000 |      101 | D1      |
++------+------------+------------+--------------+--------+--------+----------+---------+
+1 row in set, 1 warning (0.00 sec)
++---------+---------+-------+------------+------------+
+| pnumber | dnumber | name  | HouseName  | BirthDate  |
++---------+---------+-------+------------+------------+
+| P1      | D2      | Alice | Rose Villa | 1990-01-10 |
+| P3      | D1      | Alice | Rose Villa | 1990-01-10 |
++---------+---------+-------+------------+------------+
+2 rows in set (0.00 sec)
+
+
+
+//////////////aggregate functions-4.1
+mysql> SELECT
+    ->     SUM(Salary)   AS total_salary,
+    ->     MAX(Salary)   AS highest_salary,
+    ->     MIN(Salary)   AS lowest_salary,
+    ->     AVG(Salary)   AS average_salary
+    -> FROM employee;
++--------------+----------------+---------------+----------------+
+| total_salary | highest_salary | lowest_salary | average_salary |
++--------------+----------------+---------------+----------------+
+|        39000 |          15000 |          9000 |     13000.0000 |
++--------------+----------------+---------------+----------------+
+1 row in set (0.00 sec)
+///////////////////////////////////4.2
+mysql> SELECT
+    ->     d.Dnumber,
+    ->     d.Dname,
+    ->     COUNT(p.Pnumber) AS project_count
+    -> FROM department AS d
+    -> LEFT JOIN project AS p
+    ->     ON d.Dnumber = p.Dnumber
+    -> GROUP BY d.Dnumber, d.Dname;
++---------+------------------+---------------+
+| Dnumber | Dname            | project_count |
++---------+------------------+---------------+
+| D1      | Computer Science |             1 |
+| D2      | IT Support       |             2 |
++---------+------------------+---------------+
+2 rows in set (0.01 sec)
+///////////////////////////4.3
+mysql> SELECT
+    ->     d.Dnumber,
+    ->     d.Dname,
+    ->     COUNT(e.EmployeeID) AS employee_count
+    -> FROM department AS d
+    -> LEFT JOIN employee AS e
+    ->     ON d.Dnumber = e.Dnumber
+    -> GROUP BY d.Dnumber, d.Dname;
++---------+------------------+----------------+
+| Dnumber | Dname            | employee_count |
++---------+------------------+----------------+
+| D1      | Computer Science |              2 |
+| D2      | IT Support       |              1 |
++---------+------------------+----------------+
+2 rows in set (0.00 sec)
+/////////////////////////////4.4
+mysql> SELECT
+    ->     Dnumber,
+    ->     MAX(Salary) AS max_salary
+    -> FROM employee
+    -> GROUP BY Dnumber
+    -> HAVING MIN(Salary) > 10000;
++---------+------------+
+| Dnumber | max_salary |
++---------+------------+
+| D1      |      15000 |
++---------+------------+
+1 row in set (0.00 sec)
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\UNTIL 5 DONE. 6th is put hold. 7th:
+
+///////////////////6.1
+mysql> select Name, BirthDate, TIMESTAMPDIFF(YEAR, BirthDate, CURDATE()) as Age
+    -> FROM Employee
+    -> WHERE TIMESTAMPDIFF(YEAR, BirthDate, CURDATE()) BETWEEN 25 AND 45;
++---------+------------+------+
+| Name    | BirthDate  | Age  |
++---------+------------+------+
+| Alice   | 1990-01-10 |   35 |
+| Bob     | 1988-02-20 |   37 |
+| Charlie | 1992-07-12 |   33 |
++---------+------------+------+
+3 rows in set (0.00 sec)
+//////////////////////6.2
+mysql> SELECT Dnumber, Dname, ManagerID, TIMESTAMPDIFF(YEAR, mgr_start_date, CURDATE()) AS Service_period
+    -> from Department;
++---------+------------------+-----------+----------------+
+| Dnumber | Dname            | ManagerID | Service_period |
++---------+------------------+-----------+----------------+
+| D1      | Computer Science |       101 |              4 |
+| D2      | IT Support       |       102 |              3 |
++---------+------------------+-----------+----------------+
+2 rows in set (0.00 sec)
+///////7.1
+mysql> SELECT DISTINCT p.pnumber
+    -> FROM project p
+    -> JOIN department d ON p.Dnumber = d.Dnumber
+    -> JOIN employee e ON d.ManagerID = e.EmployeeID
+    -> WHERE e.name = 'Alice'
+    -> UNION
+    -> SELECT DISTINCT p.Pnumber
+    -> FROM project p
+    -> JOIN works_on w ON p.Pnumber = w.Pnumber
+    -> JOIN employee e ON w.EmployeeID = e.EmployeeID
+    -> WHERE e.Name = 'Alice';
++---------+
+| pnumber |
++---------+
+| P3      |
++---------+
+1 row in set (0.00 sec)
+////////////////////////////////8.1
+mysql> SELECT e.Name
+    -> FROM Employee e
+    -> JOIN Dependent d
+    -> ON e.EmployeeID = d.EmployeeID
+    -> AND e.Name = d.DependName
+    -> AND e.Gender = d.Sex;
++-------+
+| Name  |
++-------+
+| Alice |
++-------+
+1 row in set (0.00 sec)
+
+////////////////////////////8.2
+
+mysql> SELECT e.Name
+    -> FROM Employee e
+    -> LEFT JOIN Dependent d
+    ->     ON e.EmployeeID = d.EmployeeID
+    -> WHERE d.EmployeeID IS NULL;
++---------+
+| Name    |
++---------+
+| Charlie |
++---------+
+1 row in set (0.00 sec)
+/////////////////////////////8.3
+
+mysql> SELECT e.Name
+    -> FROM employee e
+    -> WHERE e.EmployeeID IN (
+    ->     SELECT d.ManagerID
+    ->     FROM department d
+    ->     WHERE d.ManagerID IN (
+    ->         SELECT EmployeeID
+    ->         FROM dependent
+    ->     )
+    -> );
++---------+
+| Name    |
++---------+
+| Alice   |
+| Bob     |
+| Charlie |
++---------+
+3 rows in set (0.00 sec)
