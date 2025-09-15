@@ -348,3 +348,97 @@ mysql> SELECT e.Name
 | Charlie |
 +---------+
 3 rows in set (0.00 sec)
+///////////////////////////////8.4
+mysql> SELECT
+    ->     e.Name AS EmployeeName,
+    ->     s.Name AS SupervisorName
+    -> FROM Employee e
+    -> LEFT JOIN Employee s ON e.SuperEID = s.EmployeeID;
++--------------+----------------+
+| EmployeeName | SupervisorName |
++--------------+----------------+
+| Alice        | NULL           |
+| Bob          | Alice          |
+| Charlie      | Alice          |
+| David        | Alice          |
+| Emma         | Bob            |
+| Frank        | Alice          |
+| Grace        | David          |
+| Helen        | Emma           |
++--------------+----------------+
+8 rows in set (0.00 sec)
+
+
+///////////////////////////////9.1
+mysql> CREATE VIEW dept_salary_stats AS
+    -> SELECT
+    -> Dnumber,
+    -> MIN(Salary) AS MinSalary,
+    -> MAX(Salary) AS MaxSalary,
+    -> AVG(Salary) AS AvgSalary
+    -> From Employee
+    -> GROUP BY Dnumber;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM dept_salary_stats;
++---------+-----------+-----------+------------+
+| Dnumber | MinSalary | MaxSalary | AvgSalary  |
++---------+-----------+-----------+------------+
+| D1      |     15000 |     18000 | 15875.0000 |
+| D2      |      9000 |     17000 | 12666.6667 |
+| D3      |     20000 |     20000 | 20000.0000 |
++---------+-----------+-----------+------------+
+3 rows in set (0.01 sec)
+/////////////////////////////////////9.2
+mysql> CREATE VIEW emp_project_hours AS
+    -> SELECT
+    -> e.Name AS EmployeeName,
+    -> p.Pname AS ProjectName,
+    -> w.Hours
+    -> From works_on w
+    -> JOIN employee e ON w.EmployeeID = e.EmployeeID
+    -> JOIN project p ON w.Pnumber =p.Pnumber;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from emp_project_hours;
++--------------+-------------+-------+
+| EmployeeName | ProjectName | Hours |
++--------------+-------------+-------+
+| Alice        | IntelliSys  | 10.00 |
+| Frank        | IntelliSys  | 12.00 |
+| Bob          | Cloud Infra |  8.00 |
+| Charlie      | Cloud Infra | 12.00 |
+| David        | Cloud Infra | 15.50 |
+| Bob          | TestProj    |  5.00 |
+| Emma         | TestProj    | 20.00 |
+| Grace        | TestProj    | 18.00 |
++--------------+-------------+-------+
+8 rows in set (0.00 sec)
+/////////////////////////////////////////9.3
+
+mysql> UPDATE Project
+    -> SET Pname = 'Product Y'
+    -> WHERE Pname = 'ProductX';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM emp_project_hours;
++--------------+-------------+-------+
+| EmployeeName | ProjectName | Hours |
++--------------+-------------+-------+
+| Alice        | IntelliSys  | 10.00 |
+| Frank        | IntelliSys  | 12.00 |
+| Bob          | Cloud Infra |  8.00 |
+| Charlie      | Cloud Infra | 12.00 |
+| David        | Cloud Infra | 15.50 |
+| Bob          | TestProj    |  5.00 |
+| Emma         | TestProj    | 20.00 |
+| Grace        | TestProj    | 18.00 |
+| Alice        | Product Y   |  8.00 |
+| Helen        | Product Y   |  7.00 |
++--------------+-------------+-------+
+10 rows in set (0.00 sec)
+
+/////////////////////////////////////////9.4
+mysql> DROP VIEW emp_project_hours;
+Query OK, 0 rows affected (0.00 sec)
