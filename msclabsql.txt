@@ -33,14 +33,25 @@ mysql> desc department;
 +----------------+-------------+------+-----+---------+-------+
 4 rows in set (0.00 sec)
 ////////////////////////////2.1
-mysql> insert into Department (Dname,Dnumber,ManagerID,Mgr_start_date) values ('Computer Science',10,NULL,'2025-06-01');
+mysql> insert into Department (Dname,Dnumber,ManagerID,Mgr_start_date) values ('Computer Science',D1,101,'2021-01-01');
 Query OK, 1 row affected (0.00 sec)
+mysql> select * from department;
++------------------+---------+-----------+----------------+
+| Dname            | Dnumber | ManagerID | Mgr_start_date |
++------------------+---------+-----------+----------------+
+| Computer Science | D1      |       101 | 2021-01-01     |
+| HR               | D2      |       102 | 2022-06-10     |
+| Finance          | D3      |       103 | 2023-03-15     |
+| Sales            | D4      |       104 | 2023-05-01     |
+| R&D              | D5      |       105 | 2023-07-20     |
++------------------+---------+-----------+----------------+
+5 rows in set (0.01 sec)
 ////////////////////////////2.2
 mysql> insert into Employee(Name, EmployeeID, BirthDate,HouseName, Gender, Salary, SuperEID, Dnumber)
     -> values
-    -> ('Ayush',101,'1990-01-10', 'Rose Villa', 'Male', 12000, NULL,10),
-    -> ('Bavesh',102,'1988-02-20', 'Sunset House', 'Male', 11000, 101,10),
-    -> ('Siddharth',103,'1992-07-12', 'Lakeview', 'Male', 9000, 101,10);
+    -> ('Alice',101,'1990-01-10', 'Rose Villa', 'Female', 12000, NULL,D1),
+    -> ('Bob',102,'1988-02-20', 'Sunset House', 'Male', 11000, 101,D1),
+    -> ('Charlie',103,'1992-07-12', 'Lakeview', 'Male', 9000, 101,D2);
 Query OK, 3 rows affected, 3 warnings (0.45 sec)
 Records: 3  Duplicates: 0  Warnings: 3
 ////////////////////////////2.3
@@ -54,9 +65,9 @@ mysql> select * from Employee;
 +-----------+------------+------------+--------------+--------+--------+----------+---------+
 | Name      | EmployeeID | BirthDate  | HouseName    | Gender | Salary | SuperEID | Dnumber |
 +-----------+------------+------------+--------------+--------+--------+----------+---------+
-| Ayush     |        101 | 1990-01-10 | Rose Villa   | M      |  15000 |     NULL |      10 |
-| Bavesh    |        102 | 1988-02-20 | Sunset House | M      |  15000 |      101 |      10 |
-| Siddharth |        103 | 1992-07-12 | Lakeview     | M      |   9000 |      101 |      10 |
+| Alice     |        101 | 1990-01-10 | Rose Villa   | Female |  15000 |     NULL |      D1 |
+| Bob       |        102 | 1988-02-20 | Sunset House | Male   |  15000 |      101 |      D1 |
+| Charlie   |        103 | 1992-07-12 | Lakeview     | Male   |   9000 |      101 |      D2 |
 +-----------+------------+------------+--------------+--------+--------+----------+---------+
 3 rows in set (0.00 sec)
 
@@ -67,6 +78,14 @@ mysql> UPDATE Project
     -> WHERE Pnumber = 'P1' AND Dnumber = 'D1';
 Query OK, 0 rows affected (0.00 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
++-------------+---------+-----------+---------+
+| Pname       | Pnumber | Plocation | Dnumber |
++-------------+---------+-----------+---------+
+| IntelliSys  | P1      | Bangalore | D2      |
+| Cloud Infra | P2      | Mumbai    | D2      |
+| TestProj    | P3      | Pune      | D3      |
++-------------+---------+-----------+---------+
+
 
 //////////////////////////////////2.5
 
@@ -442,3 +461,4 @@ mysql> SELECT * FROM emp_project_hours;
 /////////////////////////////////////////9.4
 mysql> DROP VIEW emp_project_hours;
 Query OK, 0 rows affected (0.00 sec)
+
