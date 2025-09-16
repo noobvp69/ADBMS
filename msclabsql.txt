@@ -461,4 +461,31 @@ mysql> SELECT * FROM emp_project_hours;
 /////////////////////////////////////////9.4
 mysql> DROP VIEW emp_project_hours;
 Query OK, 0 rows affected (0.00 sec)
+ SELECT * FROM emp_project_hours;
+ERROR 1146 (42S02): Table 'ayushv2.emp_project_hours' doesn't exist
+/////////////////////////////////////////
+mysql> CREATE VIEW work_info AS
+    -> SELECT e.EmployeeID, e.Name AS EmployeeName, w.Pnumber
+    -> FROM Employee e
+    -> JOIN Works_on w ON e.EmployeeID = w.EmployeeID
+    -> WHERE w.Hours > 0;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT * FROM work_info;
++------------+--------------+---------+
+| EmployeeID | EmployeeName | Pnumber |
++------------+--------------+---------+
+|        101 | Alice        | P1      |
+|        101 | Alice        | P4      |
+|        102 | Bob          | P2      |
+|        102 | Bob          | P3      |
+|        103 | Charlie      | P2      |
+|        104 | David        | P2      |
+|        105 | Emma         | P3      |
+|        106 | Frank        | P1      |
+|        107 | Grace        | P3      |
+|        108 | Helen        | P4      |
++------------+--------------+---------+
+10 rows in set (0.00 sec)
+
 
