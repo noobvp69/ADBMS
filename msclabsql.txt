@@ -167,7 +167,7 @@ mysql> select * from Employee;
 +-----------+------------+------------+--------------+--------+--------+----------+---------+
 | Alice     |        101 | 1990-01-10 | Rose Villa   | Female |  15000 |     NULL |      D1 |
 | Bob       |        102 | 1988-02-20 | Sunset House | Male   |  15000 |      101 |      D1 |
-| Charlie   |        103 | 1992-07-12 | Lakeview     | Male   |   9000 |      101 |      D2 |
+| Charlie   |        103 | 1989-07-12 | Lakeview     | Male   |   9000 |      101 |      D2 |
 +-----------+------------+------------+--------------+--------+--------+----------+---------+
 3 rows in set (0.00 sec)
 
@@ -229,7 +229,7 @@ mysql> SELECT * FROM Employee order by salary asc;
 +---------+------------+------------+--------------+--------+--------+----------+---------+
 | Name    | EmployeeID | BirthDate  | HouseName    | Gender | Salary | SuperEID | Dnumber |
 +---------+------------+------------+--------------+--------+--------+----------+---------+
-| Charlie |        103 | 1992-07-12 | Lakeview     | Male   |   9000 |      101 | D2      |
+| Charlie |        103 | 1989-07-12 | Lakeview     | Male   |   9000 |      101 | D2      |
 | Alice   |        101 | 1990-01-10 | Rose Villa   | Female |  15000 |     NULL | D1      |
 | Bob     |        102 | 1988-02-20 | Sunset House | Male   |  15000 |      101 | D1      |
 +---------+------------+------------+--------------+--------+--------+----------+---------+
@@ -241,7 +241,7 @@ mysql> SELECT * FROM Employee order by salary desc;
 +---------+------------+------------+--------------+--------+--------+----------+---------+
 | Alice   |        101 | 1990-01-10 | Rose Villa   | Female |  15000 |     NULL | D1      |
 | Bob     |        102 | 1988-02-20 | Sunset House | Male   |  15000 |      101 | D1      |
-| Charlie |        103 | 1992-07-12 | Lakeview     | Male   |   9000 |      101 | D2      |
+| Charlie |        103 | 1989-07-12 | Lakeview     | Male   |   9000 |      101 | D2      |
 +---------+------------+------------+--------------+--------+--------+----------+---------+
 3 rows in set (0.00 sec)
 //////////////////////////////3.2
@@ -250,7 +250,7 @@ mysql> SELECT * FROM Employee where Dnumber = 'D2';// not 30
 +---------+------------+------------+-----------+--------+--------+----------+---------+
 | Name    | EmployeeID | BirthDate  | HouseName | Gender | Salary | SuperEID | Dnumber |
 +---------+------------+------------+-----------+--------+--------+----------+---------+
-| Charlie |        103 | 1992-07-12 | Lakeview  | Male   |   9000 |      101 | D2      |
+| Charlie |        103 | 1989-07-12 | Lakeview  | Male   |   9000 |      101 | D2      |
 +---------+------------+------------+-----------+--------+--------+----------+---------+
 1 row in set (0.01 sec)
 
@@ -396,7 +396,7 @@ mysql> select Name, BirthDate, TIMESTAMPDIFF(YEAR, BirthDate, CURDATE()) as Age
 +---------+------------+------+
 | Alice   | 1990-01-10 |   35 |
 | Bob     | 1988-02-20 |   37 |
-| Charlie | 1992-07-12 |   33 |
+| Charlie | 1989-07-12 |   36 |
 +---------+------------+------+
 3 rows in set (0.00 sec)
 //////////////////////6.2
@@ -994,4 +994,5 @@ Query OK, 0 rows affected, 1 warning (0.00 sec)
 
 mysql> DROP TRIGGER IF EXISTS prevent_student_delete;
 Query OK, 0 rows affected, 1 warning (0.00 sec)
+
 
