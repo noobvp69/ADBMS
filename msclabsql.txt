@@ -172,6 +172,13 @@ mysql> select * from Employee;
 3 rows in set (0.00 sec)
 
 /////////////2.4
++-------------+---------+-----------+---------+
+| Pname       | Pnumber | Plocation | Dnumber |
++-------------+---------+-----------+---------+
+| IntelliSys  | P1      | Bangalore | D1 |
+| Cloud Infra | P2      | Mumbai    | D2 |
+| TestProj    | P3      | Cochin    | D1 |
++-------------+---------+-----------+---------+
 
 mysql> UPDATE Project
     -> SET Dnumber = 'D2'
@@ -183,7 +190,7 @@ Rows matched: 1  Changed: 1  Warnings: 0
 +-------------+---------+-----------+---------+
 | IntelliSys  | P1      | Bangalore | D2      |
 | Cloud Infra | P2      | Mumbai    | D2      |
-| TestProj    | P3      | Pune      | D3      |
+| TestProj    | P3      | Cochin    | D1      |
 +-------------+---------+-----------+---------+
 
 
@@ -987,3 +994,4 @@ Query OK, 0 rows affected, 1 warning (0.00 sec)
 
 mysql> DROP TRIGGER IF EXISTS prevent_student_delete;
 Query OK, 0 rows affected, 1 warning (0.00 sec)
+
