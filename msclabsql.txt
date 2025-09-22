@@ -527,11 +527,14 @@ mysql> CREATE VIEW emp_project_hours AS
 Query OK, 0 rows affected (0.01 sec)
 
 mysql> select * from emp_project_hours;
+mysql> SELECT * FROM emp_project_hours;
 +--------------+-------------+-------+
 | EmployeeName | ProjectName | Hours |
 +--------------+-------------+-------+
 | Alice        | IntelliSys  | 10.00 |
 | Frank        | IntelliSys  | 12.00 |
+| Alice        | IntelliSys  | 10.00 |
+| Helen        | IntelliSys  |  7.00 |
 | Bob          | Cloud Infra |  8.00 |
 | Charlie      | Cloud Infra | 12.00 |
 | David        | Cloud Infra | 15.50 |
@@ -539,7 +542,7 @@ mysql> select * from emp_project_hours;
 | Emma         | TestProj    | 20.00 |
 | Grace        | TestProj    | 18.00 |
 +--------------+-------------+-------+
-8 rows in set (0.00 sec)
+10 rows in set (0.00 sec)
 /////////////////////////////////////////9.3
 
 mysql> UPDATE Project
@@ -993,6 +996,7 @@ Query OK, 0 rows affected, 1 warning (0.00 sec)
 
 mysql> DROP TRIGGER IF EXISTS prevent_student_delete;
 Query OK, 0 rows affected, 1 warning (0.00 sec)
+
 
 
 
